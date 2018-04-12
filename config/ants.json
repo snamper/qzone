@@ -1,0 +1,27 @@
+[
+    {
+        "__class__": "data.Ant",
+        "__name__": "11111",
+        "__password__": "11111"
+    },
+    {
+        "__class__": "data.Ant",
+        "__name__": "22222",
+        "__password__": "22222"
+    },
+    {
+        "__class__": "data.Ant",
+        "__name__": "33333",
+        "__password__": "33333"
+    },
+    {
+        "__class__": "data.Ant",
+        "__name__": "44444",
+        "__password__": "44444"
+    },
+    {
+        "__class__": "data.Ant",
+        "__name__": "55555",
+        "__password__": "55555"
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "__class__": "data.Boss",
+        "__name__": "11111"
+    },
+    {
+        "__class__": "data.Boss",
+        "__name__": "22222"
+    },
+    {
+        "__class__": "data.Boss",
+        "__name__": "33333"
+    },
+    {
+        "__class__": "data.Boss",
+        "__name__": "44444"
+    },
+    {
+        "__class__": "data.Boss",
+        "__name__": "55555"
+    }
+]
