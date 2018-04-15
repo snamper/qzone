@@ -35,7 +35,7 @@ def visit():
     logger.info('{} ants loaded.'.format(len(ants)))
 
     bosses = get_bosses()
-    logger.info('{} bosses loaded'.format(len(bosses)))
+    logger.info('{} bosses loaded.'.format(len(bosses)))
 
     login_url = 'https://i.qq.com'
     boss_url_formatter = 'https://user.qzone.qq.com/{}'
@@ -58,7 +58,9 @@ def visit_boss(browser, ant, boss, boss_url):
 
     while not visited and counter < max_times:
         browser.get(boss_url)
+        close_help_page(browser)
         sleep_random(1000, 1500)
+        browser.refresh()
 
         visited = has_visited(browser)
         counter += 1
