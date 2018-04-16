@@ -41,12 +41,12 @@ def visit():
     boss_url_formatter = 'https://user.qzone.qq.com/{}'
 
     for ant in ants:
-        login(browser, ant, login_url)
-        sleep_random()
+        if login(browser, ant, login_url):
+            sleep_random()
 
-        for boss in bosses:
-            boss_url = boss_url_formatter.format(boss.__name__)
-            visit_boss(browser, ant, boss, boss_url)
+            for boss in bosses:
+                boss_url = boss_url_formatter.format(boss.__name__)
+                visit_boss(browser, ant, boss, boss_url)
 
         logout(browser, ant, login_url)
 
@@ -54,7 +54,7 @@ def visit():
 
 def visit_boss(browser, ant, boss, boss_url):
     '''Visit boss'''
-    visited, counter, max_times= False, 0, 10
+    visited, counter, max_times= False, 0, 4
 
     while not visited and counter < max_times:
         browser.get(boss_url)
@@ -86,17 +86,24 @@ def login(browser, ant, login_url):
     browser.find_element_by_id('login_button').click()
     sleep_random()
 
-    while not has_logged_in(browser):
+    counter, max_times = 0, 3
+    while not has_logged_in(browser) and counter < max_times:
         logger.warn('{} needs to be verified!'.format(name))
         notify_path = 'voice/notify_verify.mp3'
         player = vlc.MediaPlayer(notify_path)
         player.play()
         time.sleep(15)
         player.release()
+        counter += 1
 
-    close_help_page(browser)
+    if counter == max_times:
+        return False
+
+    # close_help_page(browser)
 
     logger.info('{} has logged in successfully.'.format(name))
+
+    return True
 
 def close_help_page(browser):
     '''Close the help page if existing'''
@@ -115,18 +122,29 @@ def has_visited(browser):
 
 def has_logged_in(browser):
     '''Check if log in'''
-    sleep_random(500, 1000)
+    has_vcode, has_info = False, False
+
     try:
         browser.find_element_by_id('newVcodeArea')
-        return False
+        has_vcode = True
     except WebDriverException:
-        return True
+        pass
+
+    sleep_random(1000, 2000)
+
+    try:
+        browser.find_element_by_id('QM_OwnerInfo_Icon')
+        has_info = True
+    except WebDriverException:
+        pass
+
+    return has_vcode or has_info
 
 def logout(browser, ant, logout_url):
     '''Log out Qzone'''
+    logger.info("It's logging out.")
     while True:
         browser.get(logout_url)
-
         if has_logged_in(browser):
             try:
                 browser.find_element_by_id('tb_logout').click()
@@ -136,7 +154,7 @@ def logout(browser, ant, logout_url):
             except WebDriverException:
                 pass
         else:
-            break
+                break
 
     logger.info('{} has logged out successfully.'.format(ant.__name__))
 
