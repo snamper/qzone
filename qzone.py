@@ -142,7 +142,7 @@ def has_logged_in(browser):
 
 def logout(browser, ant, logout_url):
     '''Log out Qzone'''
-    logger.info("It's logging out.")
+    #logger.info("It's logging out.")
     while True:
         browser.get(logout_url)
         if has_logged_in(browser):
