@@ -7,7 +7,7 @@ import random
 import logging, logging.config
 
 def get_browser_driver():
-    '''Get the proper browser.path'''
+    '''Returen a string of path of a webdriver.'''
     import platform
 
     os_name = platform.system()
@@ -24,10 +24,11 @@ def get_browser_driver():
     return 'driver/chrome/{}'.format(driver_path)
 
 def create_browser():
-    '''Get a new browser'''
+    '''Return a new instance of WebDriver.'''
     return webdriver.Chrome(get_browser_driver())
 
 def visit():
+    '''Visit bosses' home pages.'''
     browser = create_browser()
     logger.info('Browser created successfully.')
 
@@ -113,7 +114,8 @@ def close_help_page(browser):
         pass
 
 def has_visited(browser):
-    '''Check if visiting'''
+    '''Check if visiting.
+       Return True if visting a boss' home page, False otherwise.'''
     try:
         browser.find_element_by_id('QM_OwnerInfo_Icon')
         return True
@@ -121,7 +123,8 @@ def has_visited(browser):
         return False
 
 def has_logged_in(browser):
-    '''Check if log in'''
+    '''Check if logged in.
+       Return True if has logged in, False otherwise.'''
     has_vcode, has_info = False, False
 
     try:
@@ -141,7 +144,7 @@ def has_logged_in(browser):
     return has_vcode or has_info
 
 def logout(browser, ant, logout_url):
-    '''Log out Qzone'''
+    '''Log out Qzone.'''
     #logger.info("It's logging out.")
     while True:
         browser.get(logout_url)
@@ -159,13 +162,15 @@ def logout(browser, ant, logout_url):
     logger.info('{} has logged out successfully.'.format(ant.__name__))
 
 def check_config(path):
-    '''Check if the config file exists'''
+    '''Check if the config file exists.
+       Raise AssertionError if the config file with path does not
+       exist.'''
     from pathlib import Path
 
     assert Path(path).exists(), path + ' does not exist!'
 
 def get_ants(path = 'config/ants.json'):
-    '''Get working ants from json'''
+    '''Get working ants from json. Return a list of Ant.'''
     check_config(path)
 
     with open(path, 'r', encoding = 'utf-8') as ants_config:
@@ -174,7 +179,7 @@ def get_ants(path = 'config/ants.json'):
     return ants
 
 def get_bosses(path = 'config/bosses.json'):
-    '''Get bosses from json'''
+    '''Get bosses from json. Return a list of Boss.'''
     check_config(path)
 
     with open(path, 'r', encoding = 'utf-8') as bosses_config:
@@ -183,7 +188,7 @@ def get_bosses(path = 'config/bosses.json'):
     return bosses
 
 def sleep_random(lower = 200, upper = 500):
-    '''Sleep randomly from 200 ms to 500 ms'''
+    '''Sleep randomly from 200 ms to 500 ms.'''
     time.sleep(random.randrange(lower, upper) / 1000)
 
 # Logger
