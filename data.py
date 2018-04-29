@@ -57,8 +57,10 @@ class QQDecoder(JSONDecoder):
     def __init__(self, *, parse_float=None,
             parse_int=None, parse_constant=None, strict=True,
             object_pairs_hook=None):
-        JSONDecoder.__init__(self, self.object_hook, parse_float,
-                parse_int, parse_constant, strict, object_pairs_hook)
+        JSONDecoder.__init__(self, object_hook=self.object_hook,
+                parse_float=parse_float, parse_int=parse_int,
+                parse_constant=parse_constant, strict=strict,
+                object_pairs_hook=object_pairs_hook)
 
     def object_hook(self, obj_dict):
         if '__class__' in obj_dict:
