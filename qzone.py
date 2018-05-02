@@ -25,7 +25,10 @@ def get_browser_driver():
 
 def create_browser():
     '''Return a new instance of WebDriver.'''
-    return webdriver.Chrome(get_browser_driver())
+    chrome = webdriver.Chrome(get_browser_driver())
+    chrome.set_window_size(1366, 768)
+
+    return chrome
 
 def visit():
     '''Visit bosses' home pages.'''
